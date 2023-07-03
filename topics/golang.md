@@ -34,3 +34,15 @@ Field int `json:"-"`
 // Field appears in JSON as key "-".
 Field int `json:"-,"`
 ```
+
+## Slice header
+```go
+sh := (*reflect.SliceHeader)(unsafe.Pointer(&newSlice2))
+```
+
+### Without reflection
+```go
+//address of underlying array
+s := []int{1,2,3}
+fmt.Printf("addr:%p", &s[0])
+```
