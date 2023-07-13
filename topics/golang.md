@@ -46,3 +46,40 @@ sh := (*reflect.SliceHeader)(unsafe.Pointer(&newSlice2))
 s := []int{1,2,3}
 fmt.Printf("addr:%p", &s[0])
 ```
+
+## Map len() complexity is constant
+https://github.com/golang/go/blob/c5dff7282e27c640c192edb34b92c5c6459aa804/src/runtime/hashmap.go#L105C4-L105C4
+
+## Closed channel is always ready to receive
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func main() {
+	ch := make(chan struct{})
+	go fn(ch)
+
+	time.Sleep(time.Second)
+	close(ch)
+	time.Sleep(time.Second)
+}
+
+func fn(ch <-chan struct{}) {
+	<-ch
+	fmt.Println("fn done")
+	<-ch
+	fmt.Println("fn done")
+	<-ch
+	fmt.Println("fn done")
+}
+```
+Out
+```
+fn done
+fn done
+fn done
+```
